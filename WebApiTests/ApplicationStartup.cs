@@ -38,9 +38,11 @@ namespace WebApiTests
                     OnValidateClientAuthentication = async (context) => context.Validated(),
                     OnGrantResourceOwnerCredentials = async (context) =>
                     {
+                        context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new []{"*"});
                         if (context.UserName == "MK@MK.com" && context.Password == "P@ssw0rd")
                         {
                             ClaimsIdentity o = new ClaimsIdentity(context.Options.AuthenticationType);
+                            o.AddClaim(new Claim("sub", context.UserName));
                             context.Validated(o);
                         }
                     }
@@ -49,7 +51,7 @@ namespace WebApiTests
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(20)
             };
 
-            app.UseOAuthBearerTokens(OAuthOptions);
+            app.UseOAuthBearerTokens(OAuthOptions); /* The UseOAuthBearerTokens extension method creates both the token server and the middleware to validate tokens for requests in the same application.*/
 
             app.UseWebApi(config);
         }
