@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Bogus;
-using Bogus.DataSets;
+using System.Linq;
 using WebApiTests.Models;
 
 namespace WebApiTests.Controllers
@@ -16,22 +14,14 @@ namespace WebApiTests.Controllers
     [RoutePrefix("api/v{version:apiVersion}/catalogue")]
     public class StudentsController : ApiController
     {
-        private readonly Faker<Student> _students;
+        private readonly StudentRespository _students;
 
         /// <summary>
         /// ctor
         /// </summary>
         public StudentsController()
         {
-            var title = new[] {"Mr", "Mrs", "Miss", "Ms", "Dr"};
-            int id = 0;
-            _students = new Faker<Student>()
-                .RuleFor(o=> o.Id, f=> ++id)
-                .RuleFor(o=> o.Title, f => f.PickRandom(title))
-                .RuleFor(o=> o.FirstName, f=> f.Name.FirstName())
-                .RuleFor(o => o.LastName, f => f.Name.LastName())
-                .RuleFor(o => o.Gender, f => Name.Gender.Male.ToString())
-                .RuleFor(o => o.EmailAddress, f => f.Person.Email);
+            _students = new StudentRespository();
         }
 
         /// <summary>
@@ -41,7 +31,17 @@ namespace WebApiTests.Controllers
         [HttpGet]
         public List<Student> Get()
         {
-            return _students.Generate(100);
+            return _students.GetAll().ToList();
+        }
+
+        // <summary>
+        /// Get all students
+        /// </summary>
+        [Route("students/{firstName}")]
+        [HttpGet]
+        public List<Student> GetBy(string firstName)
+        {
+            return _students.GetBy(student => student.FirstName.Contains(firstName)).ToList();
         }
     }
 }

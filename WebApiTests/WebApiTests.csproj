@@ -132,9 +132,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="CourseRepository.cs" />
+    <Compile Include="HttpMessageHandlers\MessageValidationHandler.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StudentRespository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

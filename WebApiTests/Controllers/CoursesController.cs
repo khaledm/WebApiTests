@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Bogus;
-using Bogus.DataSets;
-using WebApiTests.Models;
-
-namespace WebApiTests.Controllers
+﻿namespace WebApiTests.Controllers
 {
     using System.Web.Http;
     using Microsoft.Web.Http;
+    using System.Collections.Generic;
+    using System.Linq;
+    using WebApiTests.Models;
 
     /// <inheritdoc />
     /// <summary>
@@ -18,7 +14,7 @@ namespace WebApiTests.Controllers
     [RoutePrefix("api/v{version:apiVersion}/catalogue")]
     public class CoursesController : ApiController
     {
-        private readonly Faker<Course> _courses;
+        private readonly CourseRepository _courses;
 
         /// <inheritdoc />
         /// <summary>
@@ -26,21 +22,7 @@ namespace WebApiTests.Controllers
         /// </summary>
         public CoursesController()
         {
-            var title = new[] { "Mr", "Mrs", "Miss", "Ms", "Dr" };
-            int id = 0;
-            var students = new Faker<Student>()
-                .RuleFor(o => o.Id, f => ++id)
-                .RuleFor(o => o.Title, f => f.PickRandom(title))
-                .RuleFor(o => o.FirstName, f => f.Name.FirstName())
-                .RuleFor(o => o.LastName, f => f.Name.LastName())
-                .RuleFor(o => o.Gender, f => Name.Gender.Male.ToString())
-                .RuleFor(o => o.EmailAddress, f => f.Person.Email);
-
-            _courses = new Faker<Course>()
-                .RuleFor(o => o.Id, f => ++id)
-                .RuleFor(o=> o.Title, f => f.Company.CompanyName())
-                .RuleFor(o=> o.Instructor, f => f.Name.FullName(Name.Gender.Male))
-                .RuleFor(o=> o.Students, f=> students.Generate(100).ToList());
+            _courses = new CourseRepository();
         }
 
         /// <summary>
@@ -51,7 +33,7 @@ namespace WebApiTests.Controllers
         [HttpGet]
         public List<Course> Get()
         {
-            return _courses.Generate(15);
+            return _courses.GetAll().ToList();
         }
     }
 }

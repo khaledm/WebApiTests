@@ -24,8 +24,6 @@ namespace WebApiTests
         /// <param name="app"></param>
         public void Configuration(IAppBuilder app)
         {
-            // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
-
             var config = new HttpConfiguration();
             SwaggerConfig.Register(config);
             WebApiConfig.Register(config);
