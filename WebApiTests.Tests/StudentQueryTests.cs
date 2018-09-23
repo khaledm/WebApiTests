@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-using System.Security.Policy;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebApiTests.Models;

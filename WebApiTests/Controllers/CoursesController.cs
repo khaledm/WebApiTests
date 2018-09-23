@@ -1,4 +1,6 @@
-﻿namespace WebApiTests.Controllers
+﻿using WebApiTests.Filters;
+
+namespace WebApiTests.Controllers
 {
     using System.Web.Http;
     using Microsoft.Web.Http;
@@ -31,6 +33,7 @@
         /// <returns></returns>
         [Route("courses")]
         [HttpGet]
+        [ValidationFilter]
         public List<Course> Get()
         {
             return _courses.GetAll().ToList();

@@ -1,4 +1,6 @@
-﻿namespace WebApiTests
+﻿using WebApiTests.HttpMessageHandlers;
+
+namespace WebApiTests
 {
     using System.Web.Http;
     using System.Web.Http.Routing;
@@ -34,6 +36,8 @@
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new {id = RouteParameter.Optional}
             );
+
+            config.MessageHandlers.Add(new MessageValidationHandler());
         }
     }
 }

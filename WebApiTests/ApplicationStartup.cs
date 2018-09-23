@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Web.Http;
+using System.Xml.Serialization;
+using Castle.MicroKernel.Resolvers.SpecializedResolvers;
+using Castle.Windsor;
+using Castle.Windsor.Installer;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using WebApiTests.Models;
+using WebApiTests.Windsor;
 
 [assembly: OwinStartup(typeof(WebApiTests.ApplicationStartup))]
 namespace WebApiTests
@@ -16,8 +22,8 @@ namespace WebApiTests
         /// <summary>
         ///
         /// </summary>
-        public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
-
+        // public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
+        private static IWindsorContainer _container;
         /// <summary>
         /// Configuration
         /// </summary>
@@ -28,6 +34,10 @@ namespace WebApiTests
             SwaggerConfig.Register(config);
             WebApiConfig.Register(config);
 
+            var xml = GlobalConfiguration.Configuration.Formatters.XmlFormatter;
+            xml.SetSerializer<PurchaseOrderType>(new XmlSerializer(typeof(PurchaseOrderType)));
+
+            /*
             OAuthOptions = new OAuthAuthorizationServerOptions()
             {
                 TokenEndpointPath = new PathString(@"/token"),
@@ -47,11 +57,25 @@ namespace WebApiTests
                 },
                 AllowInsecureHttp = true,
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(20)
-            };
-
+            }; */
+            /*
             app.UseOAuthBearerTokens(OAuthOptions); /* The UseOAuthBearerTokens extension method creates both the token server and the middleware to validate tokens for requests in the same application.*/
-
+            ConfigureWindsor(config);
             app.UseWebApi(config);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
+        public static void ConfigureWindsor(HttpConfiguration configuration)
+        {
+            _container = new WindsorContainer();
+            _container.Install(new WebApiInstaller());
+            
+            _container.Kernel.Resolver.AddSubResolver(new CollectionResolver(_container.Kernel, true));
+            var dependencyResolver = new WindsorDependencyResolver(_container);
+            configuration.DependencyResolver = dependencyResolver;
         }
     }
 }
