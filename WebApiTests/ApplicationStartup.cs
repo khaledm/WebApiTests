@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
+using System.Web.Http.ModelBinding.Binders;
 using System.Xml.Serialization;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using FluentValidation.WebApi;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
@@ -61,6 +64,9 @@ namespace WebApiTests
             /*
             app.UseOAuthBearerTokens(OAuthOptions); /* The UseOAuthBearerTokens extension method creates both the token server and the middleware to validate tokens for requests in the same application.*/
             ConfigureWindsor(config);
+            var provider = new SimpleModelBinderProvider(
+                typeof(PurchaseOrderType), new PurchaseOrderTypeModelBinder());
+            config.Services.Insert(typeof(ModelBinderProvider), 0, provider);
             app.UseWebApi(config);
         }
 
@@ -76,6 +82,9 @@ namespace WebApiTests
             _container.Kernel.Resolver.AddSubResolver(new CollectionResolver(_container.Kernel, true));
             var dependencyResolver = new WindsorDependencyResolver(_container);
             configuration.DependencyResolver = dependencyResolver;
+
+            FluentValidationModelValidatorProvider.Configure(GlobalConfiguration.Configuration,
+                config => { config.ValidatorFactory = new WebApiValidatorFactory(GlobalConfiguration.Configuration); });
         }
     }
 }

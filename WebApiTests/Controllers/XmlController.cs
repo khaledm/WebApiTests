@@ -1,5 +1,7 @@
 ﻿using System.Web.Http;
+using System.Web.Http.ModelBinding;
 using System.Xml.Linq;
+using FluentValidation.WebApi;
 using Microsoft.Web.Http;
 using WebApiTests.Filters;
 using WebApiTests.Models;
@@ -22,7 +24,7 @@ namespace WebApiTests.Controllers
         [Route("")]
         [ValidationFilter]
         [HttpPost]
-        public XElement Post([FromBody]PurchaseOrderType request)
+        public XElement Post([ModelBinder]PurchaseOrderType request)
         {
             return null;
         }

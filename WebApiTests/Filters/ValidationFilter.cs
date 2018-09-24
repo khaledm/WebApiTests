@@ -6,6 +6,7 @@ using System.Net.Http.Formatting;
 using System.Text;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using FluentValidation;
 using WebApiTests.Models;
 using WebApiTests.Services;
 
@@ -22,18 +23,22 @@ namespace WebApiTests.Filters
         /// <param name="actionContext"></param>
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
+            var validator =
+                actionContext.Request.GetDependencyScope().GetService(typeof(IValidator<PurchaseOrderType>)) as
+                    IValidator<PurchaseOrderType>;
+
             var responseObj = new Builder().CreateNew<PurchaseOrderType>()
                 .SetPropertyWith(p => p.confirmDate = DateTime.UtcNow)
                 .SetPropertyWith(p=> p.billTo = new USAddress() { city = "City"})
                 .SetPropertyWith(p=> p.orderDate = DateTime.UtcNow)
                 .Build();
 
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                Content = new StringContent(Serialize(new XmlMediaTypeFormatter(), responseObj), Encoding.UTF8, @"applicaton/xml")
-            };
+            //var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+            //{
+            //    Content = new StringContent(Serialize(new XmlMediaTypeFormatter(), responseObj), Encoding.UTF8, @"applicaton/xml")
+            //};
 
-            actionContext.Response = response;
+            //actionContext.Response = response;
         }
 
         private string Serialize<T>(MediaTypeFormatter formatter, T value)
