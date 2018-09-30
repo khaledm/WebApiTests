@@ -10,7 +10,7 @@ namespace WebApiTests
     /// <summary>
     /// StudentRespository
     /// </summary>
-    public class StudentRespository
+    public class StudentRespository : IRepository
     {
         private static IList<Student> _students;
         /// <summary>

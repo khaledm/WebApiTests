@@ -173,6 +173,7 @@
     <Compile Include="VAlidator.cs" />
     <Compile Include="Windsor\Class1.cs" />
     <Compile Include="Windsor\WebApiInstaller.cs" />
+    <Compile Include="Windsor\WebApiValidatorFactory.cs" />
     <Compile Include="Windsor\WindsorDependencyResolver.cs" />
   </ItemGroup>
   <ItemGroup>

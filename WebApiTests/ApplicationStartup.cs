@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Web.Http;
+using System.Web.Http.Dispatcher;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ModelBinding.Binders;
 using System.Xml.Serialization;
@@ -78,13 +79,17 @@ namespace WebApiTests
         {
             _container = new WindsorContainer();
             _container.Install(new WebApiInstaller());
-            
+
+            GlobalConfiguration.Configuration.Services.Replace(
+                typeof(IHttpControllerActivator),
+                new WindsorCompositionRoot(_container));
+
             _container.Kernel.Resolver.AddSubResolver(new CollectionResolver(_container.Kernel, true));
             var dependencyResolver = new WindsorDependencyResolver(_container);
             configuration.DependencyResolver = dependencyResolver;
 
-            FluentValidationModelValidatorProvider.Configure(GlobalConfiguration.Configuration,
-                config => { config.ValidatorFactory = new WebApiValidatorFactory(GlobalConfiguration.Configuration); });
+            //FluentValidationModelValidatorProvider.Configure(GlobalConfiguration.Configuration,
+            //    config => { config.ValidatorFactory = new WebApiValidatorFactory(GlobalConfiguration.Configuration); });
         }
     }
 }

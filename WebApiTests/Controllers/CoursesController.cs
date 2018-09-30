@@ -1,4 +1,5 @@
-﻿using WebApiTests.Filters;
+﻿using FluentValidation;
+using WebApiTests.Filters;
 
 namespace WebApiTests.Controllers
 {
@@ -16,15 +17,17 @@ namespace WebApiTests.Controllers
     [RoutePrefix("api/v{version:apiVersion}/catalogue")]
     public class CoursesController : ApiController
     {
+        private readonly AbstractValidator<PurchaseOrderType> _validator;
         private readonly CourseRepository _courses;
 
         /// <inheritdoc />
         /// <summary>
         /// Courses
         /// </summary>
-        public CoursesController()
+        public CoursesController(CourseRepository courseRepository)
         {
-            _courses = new CourseRepository();
+            //_validator = validator;
+            _courses = courseRepository;
         }
 
         /// <summary>

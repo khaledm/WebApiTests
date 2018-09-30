@@ -10,7 +10,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class CourseRepository
+    public class CourseRepository : IRepository
     {
         private static IList<Course> _courses;
         /// <summary>
@@ -48,5 +48,12 @@
                 .RuleFor(o => o.Instructor, f => f.Name.FullName(Name.Gender.Male))
                 .Generate(100);
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface IRepository
+    {
     }
 }

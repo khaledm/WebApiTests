@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using System.Xml.Linq;
+using FluentValidation;
 using FluentValidation.WebApi;
 using Microsoft.Web.Http;
 using WebApiTests.Filters;
@@ -15,6 +16,16 @@ namespace WebApiTests.Controllers
     [RoutePrefix("api/v{version:apiVersion}/xml")]
     public class XmlController : ApiController
     {
+        private readonly AbstractValidator<PurchaseOrderType> _validator;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validator"></param>
+        public XmlController(AbstractValidator<PurchaseOrderType> validator)
+        {
+            _validator = validator;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -22,9 +33,9 @@ namespace WebApiTests.Controllers
         /// <returns></returns>
 
         [Route("")]
-        [ValidationFilter]
+        //[ValidationFilter]
         [HttpPost]
-        public XElement Post([ModelBinder]PurchaseOrderType request)
+        public XElement Post(XElement request)
         {
             return null;
         }

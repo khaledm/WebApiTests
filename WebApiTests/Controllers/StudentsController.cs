@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FluentValidation;
 using WebApiTests.Models;
 
 namespace WebApiTests.Controllers
@@ -14,13 +15,15 @@ namespace WebApiTests.Controllers
     [RoutePrefix("api/v{version:apiVersion}/catalogue")]
     public class StudentsController : ApiController
     {
+        private readonly AbstractValidator<PurchaseOrderType> _validator;
         private readonly StudentRespository _students;
 
         /// <summary>
         /// ctor
         /// </summary>
-        public StudentsController()
+        public StudentsController(AbstractValidator<PurchaseOrderType> validator)
         {
+            _validator = validator;
             _students = new StudentRespository();
         }
 
