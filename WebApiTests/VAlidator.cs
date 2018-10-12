@@ -11,6 +11,7 @@ namespace WebApiTests
         public VAlidator(ISerialiseMessage<PurchaseOrderType> serialiseMessage)
         {
             _serialiseMessage = serialiseMessage;
+
             RuleFor(type => type.confirmDate).NotNull().NotEmpty();
         }
     }

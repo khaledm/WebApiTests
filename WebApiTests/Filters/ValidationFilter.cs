@@ -20,18 +20,32 @@ namespace WebApiTests.Filters
         /// <summary>
         ///
         /// </summary>
-        /// <param name="actionContext"></param>
+        public StudentRespository Repository { get; set; }
+
+        public IValidator<PurchaseOrderType> Validator { get; set; }
+
+        /// <inheritdoc />
+        ///  <summary>
+        ///  </summary>
+        ///  <param name="actionContext"></param>
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            var validator =
-                actionContext.Request.GetDependencyScope().GetService(typeof(IValidator<PurchaseOrderType>)) as
-                    IValidator<PurchaseOrderType>;
+            //var validator =
+            //    actionContext.Request.GetDependencyScope().GetService(typeof(IValidator<PurchaseOrderType>)) as
+            //        IValidator<PurchaseOrderType>;
 
             var responseObj = new Builder().CreateNew<PurchaseOrderType>()
                 .SetPropertyWith(p => p.confirmDate = DateTime.UtcNow)
                 .SetPropertyWith(p=> p.billTo = new USAddress() { city = "City"})
                 .SetPropertyWith(p=> p.orderDate = DateTime.UtcNow)
                 .Build();
+
+           var validationResult = Validator.Validate(responseObj);
+
+            if (!validationResult.IsValid)
+            {
+                actionContext.Response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
 
             //var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
             //{
@@ -46,7 +60,7 @@ namespace WebApiTests.Filters
             // Create a dummy HTTP Content.
             Stream stream = new MemoryStream();
             var content = new StreamContent(stream);
-            /// Serialize the object.
+            //// Serialize the object.
             formatter.WriteToStreamAsync(typeof(T), value, stream, content, null).Wait();
             // Read the serialized string.
             stream.Position = 0;

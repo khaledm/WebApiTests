@@ -1,4 +1,5 @@
-﻿using WebApiTests.HttpMessageHandlers;
+﻿using WebApiTests.Filters;
+using WebApiTests.HttpMessageHandlers;
 
 namespace WebApiTests
 {

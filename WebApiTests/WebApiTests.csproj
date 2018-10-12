@@ -160,6 +160,7 @@
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\XmlController.cs" />
     <Compile Include="CourseRepository.cs" />
+    <Compile Include="Filters\Filter.cs" />
     <Compile Include="Filters\ValidationFilter.cs" />
     <Compile Include="HttpMessageHandlers\MessageValidationHandler.cs" />
     <Compile Include="Models\Course.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="StudentRespository.cs" />
     <Compile Include="VAlidator.cs" />
     <Compile Include="Windsor\Class1.cs" />
+    <Compile Include="Windsor\CompositionRoot.cs" />
     <Compile Include="Windsor\WebApiInstaller.cs" />
     <Compile Include="Windsor\WebApiValidatorFactory.cs" />
     <Compile Include="Windsor\WindsorDependencyResolver.cs" />
