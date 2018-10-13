@@ -98,12 +98,12 @@ namespace WebApiTests
                 configuration.Services.GetFilterProviders()
                     .First(i => i is ActionDescriptorFilterProvider);
 
-            var globalConfigurationProvider =
-                configuration.Services.GetFilterProviders()
-                    .First(i => i is ConfigurationFilterProvider);
+            //var globalConfigurationProvider =
+            //    configuration.Services.GetFilterProviders()
+            //        .First(i => i is ConfigurationFilterProvider);
 
             configuration.Services.Remove(typeof(IFilterProvider), defaultActionProvider);
-            configuration.Services.Remove(typeof(IFilterProvider), globalConfigurationProvider);
+            // configuration.Services.Remove(typeof(IFilterProvider), globalConfigurationProvider);
             configuration.Services.Replace(typeof(IFilterProvider), new ConfigurableFilterProvider(_container));
 
             var dependencyResolver = new WindsorDependencyResolver(_container);
