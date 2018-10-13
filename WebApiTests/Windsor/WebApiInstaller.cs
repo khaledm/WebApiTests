@@ -33,7 +33,7 @@ namespace WebApiTests.Windsor
             container.Register(Component.For<ISerialiseMessage<PurchaseOrderType>>().ImplementedBy<SerialiseXmlMessage>());
             container.Register(Component.For<ISerialiseMessage<USAddress>>().ImplementedBy<SerialiseXmlMessageUSAddress>());
 
-            container.Register(Classes.FromThisAssembly().BasedOn(typeof(AbstractValidator<>)).WithServiceAllInterfaces());
+            container.Register(Classes.FromThisAssembly().BasedOn(typeof(AbstractValidator<>)).WithServiceBase());
 
             //container.Register(Component.For<ValidationFilter>().LifestyleTransient());
             container.Register(Classes.FromThisAssembly().BasedOn(typeof(ActionFilterAttribute)).LifestyleTransient());

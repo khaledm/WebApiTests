@@ -22,7 +22,7 @@ namespace WebApiTests.Filters
         /// </summary>
         public StudentRespository Repository { get; set; }
 
-        public IValidator<PurchaseOrderType> Validator { get; set; }
+        public AbstractValidator<PurchaseOrderType> Validator { get; set; }
 
         /// <inheritdoc />
         ///  <summary>
