@@ -32,11 +32,11 @@ namespace WebApiTests.Windsor
             container.Register(Component.For<WebApiValidatorFactory>().ImplementedBy<WebApiValidatorFactory>().DependsOn(container));
             container.Register(Component.For<ISerialiseMessage<PurchaseOrderType>>().ImplementedBy<SerialiseXmlMessage>());
             container.Register(Component.For<ISerialiseMessage<USAddress>>().ImplementedBy<SerialiseXmlMessageUSAddress>());
-            // container.Register(Component.For<IValidator<PurchaseOrderType>>().ImplementedBy<VAlidator>());
 
             container.Register(Classes.FromThisAssembly().BasedOn(typeof(AbstractValidator<>)).WithServiceAllInterfaces());
 
-            container.Register(Component.For<ValidationFilter>().LifestyleTransient());
+            //container.Register(Component.For<ValidationFilter>().LifestyleTransient());
+            container.Register(Classes.FromThisAssembly().BasedOn(typeof(ActionFilterAttribute)).LifestyleTransient());
 
             //container.Register(Component.For<IFilterProvider>().ImplementedBy<ConfigurableFilterProvider>());
 
