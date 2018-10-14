@@ -38,7 +38,7 @@ namespace WebApiTests
                 defaults: new {id = RouteParameter.Optional}
             );
 
-            config.MessageHandlers.Add(new MessageValidationHandler());
+            // config.MessageHandlers.Add(new MessageValidationHandler());
         }
     }
 }

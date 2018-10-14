@@ -40,6 +40,11 @@ namespace WebApiTests.Filters
                 .SetPropertyWith(p=> p.orderDate = DateTime.UtcNow)
                 .Build();
 
+            var res = Serialize(new XmlMediaTypeFormatter(), responseObj);
+
+            var s = new StringContent(res, Encoding.UTF8,
+                @"applicaton/xml");
+
            var validationResult = Validator.Validate(responseObj);
 
             if (!validationResult.IsValid)

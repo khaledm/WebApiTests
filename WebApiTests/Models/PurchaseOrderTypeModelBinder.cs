@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net.Http.Formatting;
 using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ValueProviders;
+using WebApiTests.Exceptions;
 using WebApiTests.Services;
 
 namespace WebApiTests.Models
@@ -31,18 +33,26 @@ namespace WebApiTests.Models
             //    return false;
             //}
 
-            string requestContent = actionContext.Request.Content.ReadAsStringAsync().Result;
-
-            PurchaseOrderType result;
-            result = Deserialize<PurchaseOrderType>(new XmlMediaTypeFormatter(), requestContent);
-            if (result != null)
+            try
             {
-                bindingContext.Model = result;
-                return true;
-            }
+                string requestContent = actionContext.Request.Content.ReadAsStringAsync().Result;
 
-            bindingContext.ModelState.AddModelError(
-                bindingContext.ModelName, "Cannot convert value to PurchaseOrderType");
+                PurchaseOrderType result;
+                result = Deserialize<PurchaseOrderType>(new XmlMediaTypeFormatter(), requestContent);
+                if (result != null)
+                {
+                    bindingContext.Model = result;
+                    return true;
+                }
+
+                bindingContext.ModelState.AddModelError(
+                    bindingContext.ModelName, "Cannot convert value to PurchaseOrderType");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw new ModelBindingException(ex.Message, ex);
+            }
 
             return false;
         }

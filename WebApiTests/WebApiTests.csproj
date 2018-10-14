@@ -160,6 +160,8 @@
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\XmlController.cs" />
     <Compile Include="CourseRepository.cs" />
+    <Compile Include="Exceptions\ModelBindingException.cs" />
+    <Compile Include="Filters\ModelBindingExceptionFilterAttribute.cs" />
     <Compile Include="Filters\Filter.cs" />
     <Compile Include="Filters\ValidationFilter.cs" />
     <Compile Include="HttpMessageHandlers\MessageValidationHandler.cs" />
