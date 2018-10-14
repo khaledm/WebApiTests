@@ -12,11 +12,7 @@ namespace WebApiTests.Filters
         {
             if (actionExecutedContext.Exception is ModelBindingException)
             {
-                actionExecutedContext.Response = Request.CreateErrorResponse() new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
-            else
-            {
-                base.OnException(actionExecutedContext);
+                actionExecutedContext.Response = new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
         }
     }
