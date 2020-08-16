@@ -27,9 +27,9 @@ steps:
     msbuildArchitecture: 'x64'
     clean: true
     restoreNugetPackages: true
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    codeCoverageEnabled: true
-    runInParallel: true
+#- task: VSTest@2
+#  inputs:
+#   platform: '$(buildPlatform)'
+#   configuration: '$(buildConfiguration)'
+#    codeCoverageEnabled: true
+#    runInParallel: true
